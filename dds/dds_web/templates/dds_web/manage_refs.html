@@ -1,0 +1,103 @@
+{% extends 'dds_web/base.html' %}
+
+{% block title %}
+    Управление справочниками
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-4">Управление справочниками</h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Статусы</h5>
+                    <a href="{% url 'dds:add_status' %}" class="btn btn-sm btn-success">Добавить</a>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for s in statuses %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ s.name }}
+                            <div>
+                                <a href="{% url 'dds:edit_status' s.id %}" class="btn btn-sm btn-warning me-2">&#9997;</a>
+                                <a href="{% url 'dds:delete_status' s.id %}" class="btn btn-sm btn-danger">&#128465;</a>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Нет данных</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Типы</h5>
+                    <a href="{% url 'dds:add_type' %}" class="btn btn-sm btn-success">Добавить</a>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for t in types %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ t.name }}
+                            <div>
+                                <a href="{% url 'dds:edit_type' t.id %}" class="btn btn-sm btn-warning me-2">&#9997;</a>
+                                <a href="{% url 'dds:delete_type' t.id %}" class="btn btn-sm btn-danger">&#128465;️</a>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Нет данных</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Категории</h5>
+                    <a href="{% url 'dds:add_category' %}" class="btn btn-sm btn-success">Добавить</a>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for c in categories %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ c.name }} <span class="badge bg-info text-dark">Тип: {{ c.type.name }}</span>
+                            <div>
+                                <a href="{% url 'dds:edit_category' c.id %}" class="btn btn-sm btn-warning me-2">&#9997;</a>
+                                <a href="{% url 'dds:delete_category' c.id %}" class="btn btn-sm btn-danger">&#128465;</a>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Нет данных</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Подкатегории</h5>
+                    <a href="{% url 'dds:add_subcategory' %}" class="btn btn-sm btn-success">Добавить</a>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for sc in subcategories %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ sc.name }} <span class="badge bg-secondary">Категория: {{ sc.category.name }}</span>
+                            <div>
+                                <a href="{% url 'dds:edit_subcategory' sc.id %}" class="btn btn-sm btn-warning me-2">&#9997;</a>
+                                <a href="{% url 'dds:delete_subcategory' sc.id %}" class="btn btn-sm btn-danger">&#128465;️</a>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Нет данных</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

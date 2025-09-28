@@ -1,0 +1,62 @@
+{% extends 'dds_web/base.html' %}
+{% load static %}
+
+{% block title %}
+    {% if create %}
+        Создать запись
+    {% else %}
+        Редактировать запись
+    {% endif %}
+{% endblock %}
+
+{% block head %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-4">
+        {% if create %}
+            Создать запись
+        {% else %}
+            Редактировать запись
+        {% endif %}
+    </h2>
+    <form id="record-form" method="post"
+          data-success-url="{{ success_url }}"
+          data-initial-category="{{ form.instance.category.slug|default:'' }}"
+          data-initial-subcat="{{ form.instance.subcategory.slug|default:'' }}">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="mb-3">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+                <div class="invalid-feedback d-block">
+                    {% for error in field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    {{ error }}<br>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-success">Сохранить</button>
+        <a href="{% url 'dds:home' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript" src="{% static 'js/record_form.js' %}"></script>
+{% endblock %}

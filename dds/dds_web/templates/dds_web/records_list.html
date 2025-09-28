@@ -1,0 +1,80 @@
+{% extends 'dds_web/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}
+    Список записей
+{% endblock %}
+
+{% block content %}
+    <h2>Записи ДДС</h2>
+
+    <form method="get" class="row g-3 mb-3">
+        <div class="col-md-2">
+            {{ filter.form.status.label_tag }}
+            {{ filter.form.status|add_class:"form-select" }}
+        </div>
+        <div class="col-md-2">
+            {{ filter.form.type.label_tag }}
+            {{ filter.form.type|add_class:"form-select" }}
+        </div>
+        <div class="col-md-2">
+            {{ filter.form.category.label_tag }}
+            {{ filter.form.category|add_class:"form-select" }}
+        </div>
+        <div class="col-md-2">
+            {{ filter.form.subcategory.label_tag }}
+            {{ filter.form.subcategory|add_class:"form-select" }}
+        </div>
+        <div class="col-md-2">
+            {{ filter.form.date__gte.label_tag }}
+            {{ filter.form.date__gte|add_class:"form-control" }}
+        </div>
+        <div class="col-md-2">
+            {{ filter.form.date__lte.label_tag }}
+            {{ filter.form.date__lte|add_class:"form-control" }}
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary mt-4 w-100">Фильтр</button>
+        </div>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Статус</th>
+                <th>Тип</th>
+                <th>Категория</th>
+                <th>Подкатегория</th>
+                <th>Сумма</th>
+                <th>Комментарий</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in records %}
+                <tr>
+                    <td>{{ r.date }}</td>
+                    <td>{{ r.status }}</td>
+                    <td>{{ r.type }}</td>
+                    <td>{{ r.category }}</td>
+                    <td>{{ r.subcategory }}</td>
+                    <td>{{ r.amount }}</td>
+                    <td>{{ r.comment|default:"—" }}</td>
+                    <td>
+                        <a href="{% url 'dds:edit' r.id %}" class="btn btn-sm btn-warning">	&#9997;</a>
+                        <form action="{% url 'dds:delete' r.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger">&#128465;️</button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center">Записей нет</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

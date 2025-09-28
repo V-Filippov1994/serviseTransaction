@@ -1,0 +1,31 @@
+{% extends 'dds_web/base.html' %}
+
+{% block title %}
+    {% if view.extra_context.title %}
+        {{ view.extra_context.title }}
+    {% else %}
+        Подтверждение удаления
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="card shadow-sm p-4">
+        <h2 class="mb-4">
+            {% if view.extra_context.title %}
+                {{ view.extra_context.title }}
+            {% else %}
+                Подтверждение удаления
+            {% endif %}
+        </h2>
+
+        <p>Вы уверены, что хотите удалить <strong>{{ object }}</strong>?</p>
+
+        <form method="post" class="d-flex gap-2">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Удалить</button>
+            <a href="{% url 'dds:manage_refs' %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
